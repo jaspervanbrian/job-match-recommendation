@@ -23,7 +23,6 @@ if File.exist?(job_seekers_path)
   JobSeeker.transaction do
     CSV.foreach(job_seekers_path, headers: true) do |row|
       JobSeeker.create!(
-        id: row['id'],
         name: row['name'],
         skills: row['skills'].split(', ')
       )
@@ -43,7 +42,6 @@ if File.exist?(jobs_path)
   Job.transaction do
     CSV.foreach(jobs_path, headers: true) do |row|
       Job.create!(
-        id: row['id'],
         title: row['title'],
         required_skills: row['required_skills'].split(', ')
       )
@@ -59,14 +57,16 @@ end
 if ENV['GENERATE_SYNTHETIC_DATA'] == 'true'
   puts "🔬 Generating synthetic data..."
 
+  count = ENV['COUNT'].present? ? ENV['COUNT'] : 1000
+
   JobSeeker.transaction do
     # Additional Job seekers
-    10.times do |i|
+    count.times do |i|
       skills = [
         'Ruby', 'Python', 'JavaScript', 'SQL', 'Problem Solving',
         'Communication', 'React', 'Node.js', 'Machine Learning',
         'Cloud Computing'
-      ].sample(3)
+      ].sample(rand(1..6))
 
       JobSeeker.create!(
         name: Faker::Name.name,
@@ -77,12 +77,12 @@ if ENV['GENERATE_SYNTHETIC_DATA'] == 'true'
 
   Job.transaction do
     # Additional Jobs
-    10.times do |i|
+    count.times do |i|
       skills = [
         'Ruby', 'Python', 'JavaScript', 'SQL', 'Problem Solving',
         'Communication', 'React', 'Node.js', 'Machine Learning',
         'Cloud Computing'
-      ].sample(3)
+      ].sample(rand(1..6))
 
       title = [
         "Frontend Developer",
