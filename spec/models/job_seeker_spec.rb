@@ -50,7 +50,7 @@ RSpec.describe JobSeeker, type: :model do
       end
 
       context 'with no matching skills' do
-        let(:odd_job) { create(:job, required_skills: ["COBOL"]) }
+        let(:odd_job) { create(:job, required_skills: [ "COBOL" ]) }
 
         it 'returns zero' do
           expect(job_seeker.skill_match_to(odd_job)[:matching_skill_percent]).to eq(0)
