@@ -34,11 +34,34 @@ jobseeker_id, jobseeker_name, job_id, job_title, matching_skill_count, matching_
 ...
 ```
 
-Prerequisites:
+### Prerequisites:
 - Postgresql (any will do, recommended is v17)
 
-To run:
+### Set up the app:
 ```
 $ bin/setup
+```
+
+### Seed with the CSV files:
+```
+$ rails db:seed
+```
+### Seed with additional synthetic data:
+```
+$ rails db:seed GENERATE_SYNTHETIC_DATA=true
+```
+
+### Specify synthetic data count:
+```
+$ rails db:seed GENERATE_SYNTHETIC_DATA=true COUNT=10_000
+```
+
+### Run:
+```
 $ bin/dev
+```
+
+### Run specs:
+```
+$ rspec
 ```
