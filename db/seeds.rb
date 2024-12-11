@@ -57,7 +57,7 @@ end
 if ENV['GENERATE_SYNTHETIC_DATA'] == 'true'
   puts "🔬 Generating synthetic data..."
 
-  count = ENV['COUNT'].present? ? ENV['COUNT'] : 1000
+  count = ENV['COUNT'].present? ? ENV['COUNT'].to_i : 1000
 
   JobSeeker.transaction do
     # Additional Job seekers

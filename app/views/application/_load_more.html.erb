@@ -1,0 +1,5 @@
+<% if @has_next %>
+    <%= turbo_frame_tag "load_more", loading: :lazy, src: load_more_path do %>
+        <%= render "spinner" %>
+    <% end %>
+<% end %>

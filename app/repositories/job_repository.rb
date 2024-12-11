@@ -21,5 +21,9 @@ class JobRepository < ApplicationRepository
           .order("matching_skill_percent DESC, CARDINALITY(skills) DESC, id ASC")
           .limit(top)
     end
+
+    def jobs(page: 1, per_page: 100)
+      Job.limit(per_page).offset((page - 1) * per_page)
+    end
   end
 end

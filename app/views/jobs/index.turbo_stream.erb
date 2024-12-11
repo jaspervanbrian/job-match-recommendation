@@ -1,0 +1,9 @@
+<%= turbo_stream.append :jobs_table do %>
+  <% @jobs.each do |job| %>
+    <%= render 'job', job: %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace :load_more do %>
+  <%= render "load_more", load_more_path: jobs_path(page: @page + 1, format: :turbo_stream) %>
+<% end %>

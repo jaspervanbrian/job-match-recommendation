@@ -1,0 +1,9 @@
+<%= turbo_stream.append :recommendations_table do %>
+  <% @recommendations.each do |recommendation| %>
+    <%= render 'recommendation', recommendation: %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace :load_more do %>
+  <%= render "load_more", load_more_path: root_path(page: @page + 1, format: :turbo_stream) %>
+<% end %>
