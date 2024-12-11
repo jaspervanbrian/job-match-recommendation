@@ -49,6 +49,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "factory_bot_rails"
+  gem "rspec-rails", "7.0.1"
+  gem "faker", "~> 3.5"
+  gem "shoulda-matchers"
 end
 
 group :development do
@@ -64,4 +68,4 @@ end
 
 gem "tailwindcss-rails", "~> 3.0"
 
-gem "faker", "~> 3.5"
+gem "factory_bot", "~> 6.5"

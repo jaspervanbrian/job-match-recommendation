@@ -1,4 +1,7 @@
 class JobSeeker < ApplicationRecord
+  validates :name, presence: true
+  validates :skills, presence: true
+
   def skill_match_to(job)
     matching_skills = skills & job.required_skills
 
