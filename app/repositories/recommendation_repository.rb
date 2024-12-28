@@ -36,6 +36,7 @@ class RecommendationRepository < ApplicationRepository
           .where("matching_skill_percent > 0")
           .order("jobseeker_id, job_rank, matching_skill_count DESC")
           .all
+          .to_a
       end
     end
   end
