@@ -2,8 +2,10 @@
 
 one:
   name: MyString
-  skills: MyString
+  skills:
+    - MyString
 
 two:
   name: MyString
-  skills: MyString
+  skills:
+    - MyString

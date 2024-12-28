@@ -2,8 +2,10 @@
 
 one:
   title: MyString
-  required_skills: MyString
+  required_skills:
+    - MyString
 
 two:
   title: MyString
-  required_skills: MyString
+  required_skills:
+    - MyString

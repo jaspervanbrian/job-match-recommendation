@@ -69,3 +69,6 @@ end
 gem "tailwindcss-rails", "~> 3.0"
 
 gem "factory_bot", "~> 6.5"
+
+# Use sqlite3 for the solid trifecta
+gem "sqlite3", "~> 2.5"

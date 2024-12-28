@@ -23,9 +23,11 @@
             </tr>
         </thead>
         <tbody id="recommendations_table">
-            <% @recommendations.each do |recommendation| %>
-                <%= render 'recommendation', recommendation: %>
-            <% end %>
+            <%= render partial: 'recommendation', collection: @recommendations, cached: true %>
+
+            <%# <% @recommendations.each do |recommendation| %1> %>
+            <%#     <%= render 'recommendation', recommendation: %1> %>
+            <%# <% end %1> %>
         </tbody>
     </table>
 </div>

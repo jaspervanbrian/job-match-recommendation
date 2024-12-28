@@ -23,7 +23,9 @@ class JobRepository < ApplicationRepository
     end
 
     def jobs(page: 1, per_page: 100)
-      Job.limit(per_page).offset((page - 1) * per_page)
+      Rails.cache.fetch("jobs:page=#{page},per_page=#{per_page}", expires_in: 1.day) do
+        Job.limit(per_page).offset((page - 1) * per_page)
+      end
     end
   end
 end

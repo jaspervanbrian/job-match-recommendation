@@ -1,12 +1,18 @@
 class ApplicationRepository
   class << self
-    def matching_skills_query
+    def calculate_matching_skills
       <<-SQL.squish
         ARRAY(
           SELECT UNNEST(job_seekers.skills)
           INTERSECT
           SELECT UNNEST(jobs.required_skills)
-        ) AS matching_skills
+        )
+      SQL
+    end
+
+    def matching_skills_query
+      <<-SQL.squish
+        #{calculate_matching_skills} AS matching_skills
       SQL
     end
 

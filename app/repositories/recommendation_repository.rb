@@ -29,11 +29,13 @@ class RecommendationRepository < ApplicationRepository
             "jobseeker_name",
             "job_id",
             "job_title",
+            "job_rank",
             Arel.sql("CARDINALITY(matching_skills) AS matching_skill_count"),
             "matching_skill_percent"
           )
           .where("matching_skill_percent > 0")
-          .order("jobseeker_id, matching_skill_percent DESC, matching_skill_count DESC, job_id")
+          .order("jobseeker_id, job_rank, matching_skill_count DESC")
+          .all
       end
     end
   end
