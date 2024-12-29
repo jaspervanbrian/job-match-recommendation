@@ -59,46 +59,41 @@ if ENV['GENERATE_SYNTHETIC_DATA'] == 'true'
 
   count = ENV['COUNT'].present? ? ENV['COUNT'].to_i : 1000
 
-  JobSeeker.transaction do
-    # Additional Job seekers
-    count.times do |i|
-      skills = [
-        'Ruby', 'Python', 'JavaScript', 'SQL', 'Problem Solving',
-        'Communication', 'React', 'Node.js', 'Machine Learning',
-        'Cloud Computing'
-      ].sample(rand(1..6))
+  sample_skills = [
+    'Ruby', 'Python', 'JavaScript', 'SQL', 'Problem Solving',
+    'Communication', 'React', 'Node.js', 'Machine Learning',
+    'Cloud Computing'
+  ]
 
-      JobSeeker.create!(
-        name: Faker::Name.name,
-        skills: skills
-      )
-    end
+  job_titles = [
+    "Frontend Developer",
+    "Backend Developer",
+    "Fullstack Developer",
+    "Machine Learning Engineer",
+    "Cloud Architect",
+    "Data Analyst",
+    "Web Developer"
+  ]
+
+  job_seekers = []
+  jobs = []
+
+  count.times do |i|
+    skills = sample_skills.sample(rand(1..6))
+
+    title = job_titles.sample
+    required_skills = sample_skills.sample(rand(1..6))
+
+    job_seekers << { name: Faker::Name.name, skills: }
+    jobs << { title:, required_skills: }
   end
 
-  Job.transaction do
+  ActiveRecord::Base.transaction do
+    # Additional Job seekers
+    JobSeeker.insert_all!(job_seekers)
+
     # Additional Jobs
-    count.times do |i|
-      skills = [
-        'Ruby', 'Python', 'JavaScript', 'SQL', 'Problem Solving',
-        'Communication', 'React', 'Node.js', 'Machine Learning',
-        'Cloud Computing'
-      ].sample(rand(1..6))
-
-      title = [
-        "Frontend Developer",
-        "Backend Developer",
-        "Fullstack Developer",
-        "Machine Learning Engineer",
-        "Cloud Architect",
-        "Data Analyst",
-        "Web Developer"
-      ].sample
-
-      Job.create!(
-        title:,
-        required_skills: skills
-      )
-    end
+    Job.insert_all!(jobs)
   end
 
   puts "✅ Generated synthetic data"
