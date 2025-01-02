@@ -1,36 +1,16 @@
 require 'rails_helper'
+require 'shared_contexts/jobs_and_job_seekers'
 
 RSpec.describe RecommendationRepository, type: :repository do
   describe '.recommendations' do
-    let!(:job_seekers) { create_list(:job_seeker, 10) }
-    let!(:jobs) { create_list(:job, 10) }
-    let!(:skills) do
-      [
-        'Ruby', 'Python', 'JavaScript', 'SQL', 'Problem Solving',
-        'Communication', 'React', 'Node.js', 'Machine Learning',
-        'Cloud Computing'
-      ]
-    end
-
-    before do
-      # Create skill associations
-      job_seekers.each do |job_seeker|
-        # Assign some skills to job seekers
-        job_seeker.skills << skills.sample(2)
-      end
-
-      jobs.each do |job|
-        # Assign some skills to jobs
-        job.required_skills << skills.sample(2)
-      end
-    end
+    include_context 'jobs_and_job_seekers'
 
     context 'when fetching recommendations' do
       it 'returns recommendations with matching skills' do
         recommendations = RecommendationRepository.recommendations
 
         # Check basic expectations
-        expect(recommendations).to be_an(ActiveRecord::Relation)
+        expect(recommendations).to be_an(Array)
         expect(recommendations.length).to be > 0
 
         # Verify each recommendation has expected attributes

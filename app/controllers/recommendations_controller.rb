@@ -4,8 +4,14 @@ class RecommendationsController < ApplicationController
 
   def index
     @page = params[:page].present? ? params[:page].to_i : 1
+
+    return render status: :unprocessable_entity if @page < 1
+
     @recommendations = recommendations(page: @page)
     @has_next = @recommendations.length >= PER_PAGE
+
+  rescue StandardError => _
+    render status: :internal_server_error
   end
 
   private
