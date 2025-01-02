@@ -13,8 +13,14 @@ class JobsController < ApplicationController
 
   def init_jobs
     @page = params[:page].present? ? params[:page].to_i : 1
+
+    return render status: :unprocessable_entity if @page < 1
+
     @jobs = jobs(page: @page)
     @has_next = @jobs.length >= PER_PAGE
+
+  rescue
+    render status: :internal_server_error
   end
 
   def jobs(page:)

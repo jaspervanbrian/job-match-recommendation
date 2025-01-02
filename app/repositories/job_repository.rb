@@ -1,8 +1,6 @@
 class JobRepository < ApplicationRepository
   class << self
     def top_candidates(job, top: 10)
-      required_skills = job.required_skills
-
       job_seeker_subquery = JobSeeker
         .select(
           "job_seekers.*",
@@ -24,7 +22,7 @@ class JobRepository < ApplicationRepository
 
     def jobs(page: 1, per_page: 100)
       Rails.cache.fetch("jobs:page=#{page},per_page=#{per_page}", expires_in: 1.day) do
-        Job.limit(per_page).offset((page - 1) * per_page)
+        Job.limit(per_page).offset((page - 1) * per_page).to_a
       end
     end
   end

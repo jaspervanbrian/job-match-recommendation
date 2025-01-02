@@ -10,7 +10,7 @@ class RecommendationsController < ApplicationController
     @recommendations = recommendations(page: @page)
     @has_next = @recommendations.length >= PER_PAGE
 
-  rescue StandardError => _
+  rescue
     render status: :internal_server_error
   end
 
