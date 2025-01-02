@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'shared_contexts/jobs_and_job_seekers'
-require 'shared_contexts/controllers_with_pagination'
+require 'shared_examples/controllers_with_pagination'
 
 RSpec.describe RecommendationsController, type: :controller do
   include_context 'jobs_and_job_seekers'
-  include_context 'controllers_with_pagination'
+  it_behaves_like 'controllers_with_pagination'
 
   describe 'GET #index' do
     context 'recommendations' do

@@ -1,4 +1,4 @@
-RSpec.shared_context 'controllers_with_pagination' do
+RSpec.shared_examples 'controllers_with_pagination' do
   before do
     # Stub jobs_count
     allow(controller).to receive(:jobs_count)

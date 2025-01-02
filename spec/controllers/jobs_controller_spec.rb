@@ -1,15 +1,28 @@
 require 'rails_helper'
 require 'shared_contexts/jobs_and_job_seekers'
-require 'shared_contexts/controllers_with_pagination'
+require 'shared_examples/controllers_with_pagination'
 
 RSpec.describe JobsController, type: :controller do
   include_context 'jobs_and_job_seekers'
-  include_context 'controllers_with_pagination'
+  it_behaves_like 'controllers_with_pagination'
 
-  RSpec.shared_examples 'jobs' do
+  RSpec.shared_examples 'jobs' do |method, action, **opts|
+    let!(:params) do
+      if opts.present? && opts[:params].present?
+        instance_exec(&(opts[:params]))
+      else
+        nil
+      end
+    end
+
     context 'jobs' do
       it 'assigns @jobs' do
-        get :index
+        if params.present?
+          send(method, action, **params)
+        else
+          send(method, action)
+        end
+
         expect(assigns(:jobs)).to be_an(Array)
         expect(assigns(:jobs).length).to be > 0
       end
@@ -21,26 +34,37 @@ RSpec.describe JobsController, type: :controller do
       end
 
       it 'returns HTTP 500 internal server error' do
-        get :index
+        if params.present?
+          send(method, action, **params)
+        else
+          send(method, action)
+        end
         expect(response).to have_http_status(:internal_server_error)
       end
     end
   end
 
   describe 'GET #index' do
-    include_examples "jobs"
+    it_behaves_like "jobs", :get, :index
   end
 
   describe 'GET #show' do
-    include_examples "jobs"
+    let!(:id) { jobs.first.id }
+    let(:opts) do
+      {
+        as: :turbo_stream,
+        params: { id: id }
+      }
+    end
+
+    it_behaves_like "jobs", :get, :show, params: -> { opts }
 
     context 'candidates' do
-      let(:first_job_id) { Job.first.id }
-
       it 'assigns @candidates' do
-        get :show, as: :turbo_stream, params: { id: first_job_id }
-        expect(assigns(:jobs)).to be_an(Array)
-        expect(assigns(:jobs).length).to be > 0
+        get :show, as: :turbo_stream, params: { id: id }
+
+        expect(assigns(:candidates)).to be_an(ActiveRecord::Relation)
+        expect(assigns(:candidates).length).to be > 0
       end
     end
   end
