@@ -13,4 +13,4 @@
     <% end %>
 </div>
 
-<%= render "load_more", load_more_path: root_path(page: @page + 1, format: :turbo_stream) %>
+<%= render "load_more", load_more_path: root_path(format: :turbo_stream, **@next_page_params) %>
