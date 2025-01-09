@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'shared_contexts/jobs_and_job_seekers'
-require 'shared_examples/controllers_with_pagination'
+require 'shared_examples/controllers_with_optimized_pagination'
 
 RSpec.describe RecommendationsController, type: :controller do
   include_context 'jobs_and_job_seekers'
-  it_behaves_like 'controllers_with_pagination'
+  it_behaves_like 'controllers_with_optimized_pagination'
 
   describe 'GET #index' do
     context 'recommendations' do
@@ -17,7 +17,7 @@ RSpec.describe RecommendationsController, type: :controller do
 
     context 'when RecommendationRepository raises an error' do
       before do
-        allow(RecommendationRepository).to receive(:recommendations).and_raise(StandardError)
+        allow(RecommendationRepository).to receive(:optimized_recommendations).and_raise(StandardError)
       end
 
       it 'returns HTTP 500 internal server error' do

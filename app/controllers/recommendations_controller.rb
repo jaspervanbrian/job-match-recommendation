@@ -3,20 +3,29 @@ class RecommendationsController < ApplicationController
   PER_PAGE = 1000
 
   def index
-    @page = params[:page].present? ? params[:page].to_i : 1
+    last_jobseeker_id = params.fetch(:last_jobseeker_id, 0).to_i
+    last_job_rank = params.fetch(:last_job_rank, 0).to_i
 
-    return render status: :unprocessable_entity if @page < 1
+    @recommendations = recommendations(
+      last_jobseeker_id:,
+      last_job_rank:,
+    )
 
-    @recommendations = recommendations(page: @page)
     @has_next = @recommendations.length >= PER_PAGE
 
+    last_record = @recommendations.last
+
+    @next_page_params = @has_next ? {
+      last_jobseeker_id: last_record.jobseeker_id,
+      last_job_rank: last_record.job_rank
+    } : {}
   rescue
     render status: :internal_server_error
   end
 
   private
 
-  def recommendations(page:)
-    RecommendationRepository.recommendations(page:)
+  def recommendations(**opts)
+    RecommendationRepository.optimized_recommendations(per_page: PER_PAGE, **opts)
   end
 end
